@@ -41,6 +41,11 @@
                     "type": "number",
                     "default": 1,
                     "description": "Controls the maximum number of hearbeats sent per second."
+                },
+                  "aw-watcher-vscode.baseUrl": {
+                    "type": "string",
+                    "default": "localhost:5600"    ,
+                    "description": "Controls the url of aw server."
                 }
             }
         }
