@@ -35,6 +35,7 @@ class ActivityWatch {
     // Heartbeat handling
     private _pulseTime: number = 20;
     private _maxHeartbeatsPerSec: number = 1;
+    private _baseUrl: string = 'localhost:5600';
     private _lastFilePath: string = '';
     private _lastHeartbeatTime: number = 0; // Date.getTime()
 
@@ -48,7 +49,7 @@ class ActivityWatch {
         this._bucket.id = `${this._bucket.clientName}_${this._bucket.hostName}`;
 
         // Create AWClient
-        this._client = new AWClient(this._bucket.clientName, { testing: false });
+        this._client = new AWClient(this._bucket.clientName, { testing: false, baseUrl: this._baseUrl });
 
         // subscribe to VS Code Events
         let subscriptions: Disposable[] = [];
@@ -80,9 +81,16 @@ class ActivityWatch {
     public loadConfigurations() {
         const extConfigurations = workspace.getConfiguration('aw-watcher-vscode');
         const maxHeartbeatsPerSec = extConfigurations.get('maxHeartbeatsPerSec');
+        const baseUrl = extConfigurations.get('baseUrl');
+        
         if (maxHeartbeatsPerSec) {
             this._maxHeartbeatsPerSec = maxHeartbeatsPerSec as number;
         }
+        if (baseUrl) {
+            this._baseUrl = baseUrl;
+        }
+        
+        
     }
 
     public dispose() {
